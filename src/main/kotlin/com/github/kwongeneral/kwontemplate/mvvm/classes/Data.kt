@@ -11,5 +11,4 @@ data class ${className}Data(
     var sub_type: Long = 0,
 ) {
 }
-
 """.trimIndent()

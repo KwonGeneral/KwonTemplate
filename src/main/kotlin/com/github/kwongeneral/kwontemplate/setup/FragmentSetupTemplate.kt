@@ -7,7 +7,7 @@ import com.github.kwongeneral.kwontemplate.extensions.toSnakeCase
 val fragmentSetupTemplate
     get() = template {
         name = "Kwon Fragment"
-        description = "리사이클러뷰 액티비티"
+        description = "Custom Fragment Template"
         minApi = 16
         category = Category.Other // Check other categories
         formFactor = FormFactor.Mobile
@@ -24,17 +24,17 @@ val fragmentSetupTemplate
             constraints = listOf(Constraint.NONEMPTY)
         }
 
-        val activityLayoutName = stringParameter {
+        val fragmentLayoutName = stringParameter {
             name = "Layout Name"
             default = ""
             help = "레이아웃명"
             constraints = listOf(Constraint.LAYOUT, Constraint.UNIQUE, Constraint.NONEMPTY)
-            suggest = { activityToLayout(className.value.toSnakeCase()) }
+            suggest = { fragmentToLayout(className.value.toSnakeCase()) }
         }
 
         widgets(
             TextFieldWidget(className),
-            TextFieldWidget(activityLayoutName),
+            TextFieldWidget(fragmentLayoutName),
             PackageNameWidget(packageNameParam)
         )
 
@@ -43,7 +43,7 @@ val fragmentSetupTemplate
                 data as ModuleTemplateData,
                 packageNameParam.value,
                 className.value,
-                activityLayoutName.value
+                fragmentLayoutName.value
             )
         }
     }

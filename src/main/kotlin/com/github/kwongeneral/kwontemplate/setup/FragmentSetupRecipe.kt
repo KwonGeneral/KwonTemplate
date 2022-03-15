@@ -15,7 +15,7 @@ fun RecipeExecutor.fragmentSetup(
     moduleData: ModuleTemplateData,
     packageName: String,
     className: String,
-    activityLayoutName: String
+    fragmentLayoutName: String
 ) {
     val (projectData, _, _, manifestOut) = moduleData
     val project = projectInstance ?: return
@@ -28,34 +28,33 @@ fun RecipeExecutor.fragmentSetup(
     val directorySrc = PsiManager.getInstance(project).findDirectory(virtSrc)?:return
     val directoryRes = PsiManager.getInstance(project).findDirectory(virtRes)?:return
 
-    val activityClass = "${className}Activity".capitalize()
-    val adapterClass = "${className}RecyclerAdatper".capitalize()
-    val viewHolderClass = "${className}ItemViewHolder".capitalize()
+    val fragmentClass = "${className}Fragment".capitalize()
+    val adapterClass = "${className}Adapter".capitalize()
+    val dataClass = "${className}Data".capitalize()
     val viewModelClass = "${className}ViewModel".capitalize()
-
-    mergeXml(
-        manifestTemplateXml(packageName, "${className}Activity"),
-        manifestOut.resolve("AndroidManifest.xml")
-    )
+    val itemName = "${className.toLowerCase()}_item"
+    val adapterLayoutName = "adapter_${className.toSnakeCase()}"
+    val recyclerName = "recycler_${className.toLowerCase()}"
+    val classNameCapitalize = className.capitalize()
 
     val packageNameSplit = packageName.split(".")
     val originPackageName = "${packageNameSplit[0]}.${packageNameSplit[1]}.${packageNameSplit[2]}"
 
-    createFragment(packageName, className, activityLayoutName, originPackageName)
-        .save(directorySrc, "$packageName.view", "$activityClass.kt")
+    createFragment("$packageName.view.fragment", classNameCapitalize, fragmentLayoutName, viewModelClass, itemName, recyclerName, adapterClass, originPackageName)
+        .save(directorySrc, "$packageName.view.fragment", "$fragmentClass.kt")
 
-    createRecyclerAdapter(packageName, className)
-        .save(directorySrc, "$packageName.adapter", "$adapterClass.kt")
+    createAdapter("$packageName.view.adapter", classNameCapitalize, dataClass, adapterLayoutName, originPackageName)
+        .save(directorySrc, "$packageName.view.adapter", "$adapterClass.kt")
 
-    createViewHolder(packageName, className)
-        .save(directorySrc, "$packageName.viewHolder", "$viewHolderClass.kt")
-
-    createViewModel(packageName, className)
+    createViewModel("$packageName.view.model", classNameCapitalize, itemName, dataClass, originPackageName)
         .save(directorySrc, "$packageName.view.model", "$viewModelClass.kt")
 
-    createRecyclerActivityLayout(packageName, className)
-        .save(directoryRes, "layout", "${activityLayoutName}.xml")
+    createData("$packageName.data", classNameCapitalize)
+        .save(directorySrc, "$packageName.data", "$dataClass.kt")
 
-    createViewHolderLayout()
-        .save(directoryRes, "layout", "item_${className.toSnakeCase()}.xml")
+    createFragmentLayout(classNameCapitalize, recyclerName)
+        .save(directoryRes, "layout", "${fragmentLayoutName}.xml")
+
+    createAdapterLayout()
+        .save(directoryRes, "layout", "$adapterLayoutName.xml")
 }

@@ -3,32 +3,45 @@ package com.github.kwongeneral.kwontemplate.mvvm.classes
 fun createFragment(
     packageName: String,
     className: String,
-    activityLayoutName: String,
-    originPackageName: String,
+    fragmentLayoutName: String,
+    viewModelName: String,
+    viewModelItemName: String,
+    recyclerLayoutName: String,
+    adapterName: String,
+    originPackageName: String
 ) = """
 package $packageName
 	
-import android.content.Intent
 import android.os.Bundle
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import $originPackageName.R
+import $originPackageName.view.model.$viewModelName
+import $originPackageName.view.adapter.$adapterName
+import kotlinx.android.synthetic.main.$fragmentLayoutName.*
 
 class ${className}Fragment : Fragment() {
-    val requestActivity: ActivityResultLauncher<Intent> = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { activityResult ->
-        if (activityResult.resultCode == RESULT_OK && null != activityResult.data) {
-
-        } else {
-
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.$activityLayoutName)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.$fragmentLayoutName, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        $viewModelName.getInstance(requireContext())?.let { vm ->
+            vm.$viewModelItemName.observe(viewLifecycleOwner) { item ->
+                $recyclerLayoutName.adapter = $adapterName(requireContext(), item)
+            }
+        }
     }
 
     override fun onStart() {
@@ -49,10 +62,6 @@ class ${className}Fragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
     }
 }
 """.trimIndent()

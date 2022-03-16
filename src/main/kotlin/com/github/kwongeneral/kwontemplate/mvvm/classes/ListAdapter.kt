@@ -1,6 +1,6 @@
 package com.github.kwongeneral.kwontemplate.mvvm.classes
 
-fun createAdapter(
+fun createListAdapter(
     packageName: String,
     path: String,
     className: String,

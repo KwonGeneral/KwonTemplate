@@ -11,7 +11,7 @@ import com.github.kwongeneral.kwontemplate.mvvm.layout.*
 import java.util.*
 
 
-fun RecipeExecutor.fragmentSetup(
+fun RecipeExecutor.listFragmentSetup(
     moduleData: ModuleTemplateData,
     packageName: String,
     className: String,
@@ -30,19 +30,33 @@ fun RecipeExecutor.fragmentSetup(
     val tempClassName = className.lowercase(Locale.getDefault()).replace("fragment", "")
 
     val fragmentClass = "${tempClassName}Fragment".capitalize()
+    val adapterClass = "${tempClassName}Adapter".capitalize()
+    val dataClass = "${tempClassName}Data".capitalize()
     val viewModelClass = "${tempClassName}ViewModel".capitalize()
+    val itemName = "${className.lowercase(Locale.getDefault())}_item"
+    val adapterLayoutName = "adapter_$tempClassName"
+    val recyclerName = "recycler_${className.lowercase(Locale.getDefault())}"
 
     val classNameCapitalize = tempClassName.capitalize()
 
     val packageNameSplit = packageName.split(".")
     val originPackageName = "${packageNameSplit[0]}.${packageNameSplit[1]}.${packageNameSplit[2]}"
 
-    createFragment(packageName, ".view.fragment", classNameCapitalize, fragmentLayoutName, originPackageName)
+    createListFragment(packageName, ".view.fragment", classNameCapitalize, fragmentLayoutName, viewModelClass, itemName, recyclerName, adapterClass, originPackageName)
         .save(directorySrc, "$packageName.view.fragment", "$fragmentClass.kt")
 
-    createViewModel(packageName, ".view.model", classNameCapitalize)
+    createListAdapter(packageName, ".view.adapter", classNameCapitalize, dataClass, adapterLayoutName, originPackageName)
+        .save(directorySrc, "$packageName.view.adapter", "$adapterClass.kt")
+
+    createListViewModel(packageName, ".view.model", classNameCapitalize, itemName, dataClass, originPackageName)
         .save(directorySrc, "$packageName.view.model", "$viewModelClass.kt")
 
-    createFragmentLayout(packageName, ".view.fragment", classNameCapitalize)
+    createListData(packageName, ".data", classNameCapitalize)
+        .save(directorySrc, "$packageName.data", "$dataClass.kt")
+
+    createListFragmentLayout(packageName, ".view.fragment", classNameCapitalize, recyclerName)
         .save(directoryRes, "layout", "${fragmentLayoutName}.xml")
+
+    createListAdapterLayout()
+        .save(directoryRes, "layout", "$adapterLayoutName.xml")
 }

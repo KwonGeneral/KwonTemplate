@@ -4,10 +4,10 @@ import com.android.tools.idea.wizard.template.*
 import com.github.kwongeneral.kwontemplate.extensions.defaultPackageNameParameter
 import java.util.*
 
-val fragmentSetupTemplate
+val listFragmentSetupTemplate
     get() = template {
-        name = "A Fragment (MVVM)"
-        description = "Fragment Template (Fragment, ViewModel, Layout)"
+        name = "A List Fragment (MVVM)"
+        description = "List Fragment Template (Fragment, Adapter, Data, ViewModel, Layout)"
         minApi = 21
         category = Category.Fragment
         formFactor = FormFactor.Mobile
@@ -42,7 +42,7 @@ val fragmentSetupTemplate
         )
 
         recipe = { data: TemplateData ->
-            fragmentSetup(
+            listFragmentSetup(
                 data as ModuleTemplateData,
                 packageNameParam.value,
                 className.value,

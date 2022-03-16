@@ -19,6 +19,10 @@
         <wizardTemplateProvider implementation="com.github.kwongeneral.kwontemplate.FragmentTemplateProviderImpl" />
     </extensions>
 
+    <extensions defaultExtensionNs="com.android.tools.idea.wizard.template">
+        <wizardTemplateProvider implementation="com.github.kwongeneral.kwontemplate.ListFragmentTemplateProviderImpl" />
+    </extensions>
+
     <applicationListeners>
         <listener class="com.github.kwongeneral.kwontemplate.listeners.MyProjectManagerListener"
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>

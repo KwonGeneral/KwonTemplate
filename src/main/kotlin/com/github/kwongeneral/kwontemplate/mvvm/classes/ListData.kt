@@ -1,6 +1,6 @@
 package com.github.kwongeneral.kwontemplate.mvvm.classes
 
-fun createData(
+fun createListData(
     packageName: String,
     path: String,
     className: String

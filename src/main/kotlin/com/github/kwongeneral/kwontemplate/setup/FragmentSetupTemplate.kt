@@ -6,10 +6,10 @@ import com.github.kwongeneral.kwontemplate.extensions.toSnakeCase
 
 val fragmentSetupTemplate
     get() = template {
-        name = "Kwon Fragment"
+        name = "A Kwon Fragment (MVVM)"
         description = "Custom Fragment Template"
         minApi = 16
-        category = Category.Other // Check other categories
+        category = Category.Fragment // Check other categories
         formFactor = FormFactor.Mobile
         screens = listOf(
             WizardUiContext.FragmentGallery, WizardUiContext.MenuEntry,

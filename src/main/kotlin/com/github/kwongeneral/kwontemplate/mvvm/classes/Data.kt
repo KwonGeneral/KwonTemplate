@@ -5,7 +5,7 @@ fun createData(
     path: String,
     className: String
 ) = """
-package $packageName.$path
+package $packageName$path
 
 data class ${className}Data(
     var type: Long = 0,

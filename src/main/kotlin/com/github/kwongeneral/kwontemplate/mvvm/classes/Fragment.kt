@@ -2,6 +2,7 @@ package com.github.kwongeneral.kwontemplate.mvvm.classes
 
 fun createFragment(
     packageName: String,
+    path: String,
     className: String,
     fragmentLayoutName: String,
     viewModelName: String,
@@ -10,7 +11,7 @@ fun createFragment(
     adapterName: String,
     originPackageName: String
 ) = """
-package $packageName
+package $packageName$path
 	
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -18,8 +19,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import $originPackageName.R
-import $originPackageName.view.model.$viewModelName
-import $originPackageName.view.adapter.$adapterName
+import $packageName.view.model.$viewModelName
+import $packageName.view.adapter.$adapterName
 import kotlinx.android.synthetic.main.$fragmentLayoutName.*
 
 class ${className}Fragment : Fragment() {

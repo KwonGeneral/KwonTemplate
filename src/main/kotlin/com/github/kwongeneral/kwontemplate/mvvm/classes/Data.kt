@@ -2,6 +2,7 @@ package com.github.kwongeneral.kwontemplate.mvvm.classes
 
 fun createData(
     packageName: String,
+    path: String,
     className: String
 ) = """
 package $packageName

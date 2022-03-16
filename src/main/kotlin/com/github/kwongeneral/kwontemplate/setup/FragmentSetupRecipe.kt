@@ -28,29 +28,31 @@ fun RecipeExecutor.fragmentSetup(
     val virtRes = virtualFiles.firstOrNull { it.path.contains("app/src/main/res") }?:return
     val directorySrc = PsiManager.getInstance(project).findDirectory(virtSrc)?:return
     val directoryRes = PsiManager.getInstance(project).findDirectory(virtRes)?:return
+    val tempClassName = className.lowercase(Locale.getDefault()).replace("fragment", "")
 
-    val fragmentClass = "${className}Fragment".capitalize()
-    val adapterClass = "${className}Adapter".capitalize()
-    val dataClass = "${className}Data".capitalize()
-    val viewModelClass = "${className}ViewModel".capitalize()
+    val fragmentClass = "${tempClassName}Fragment".capitalize()
+    val adapterClass = "${tempClassName}Adapter".capitalize()
+    val dataClass = "${tempClassName}Data".capitalize()
+    val viewModelClass = "${tempClassName}ViewModel".capitalize()
     val itemName = "${className.lowercase(Locale.getDefault())}_item"
-    val adapterLayoutName = "adapter_${className.toSnakeCase()}"
+    val adapterLayoutName = "adapter_$tempClassName"
     val recyclerName = "recycler_${className.lowercase(Locale.getDefault())}"
-    val classNameCapitalize = className.capitalize()
+
+    val classNameCapitalize = tempClassName.capitalize()
 
     val packageNameSplit = packageName.split(".")
     val originPackageName = "${packageNameSplit[0]}.${packageNameSplit[1]}.${packageNameSplit[2]}"
 
-    createFragment("$packageName.view.fragment", classNameCapitalize, fragmentLayoutName, viewModelClass, itemName, recyclerName, adapterClass, originPackageName)
+    createFragment(packageName, ".view.fragment", classNameCapitalize, fragmentLayoutName, viewModelClass, itemName, recyclerName, adapterClass, originPackageName)
         .save(directorySrc, "$packageName.view.fragment", "$fragmentClass.kt")
 
-    createAdapter("$packageName.view.adapter", classNameCapitalize, dataClass, adapterLayoutName, originPackageName)
+    createAdapter(packageName, ".view.adapter", classNameCapitalize, dataClass, adapterLayoutName, originPackageName)
         .save(directorySrc, "$packageName.view.adapter", "$adapterClass.kt")
 
-    createViewModel("$packageName.view.model", classNameCapitalize, itemName, dataClass, originPackageName)
+    createViewModel(packageName, ".view.model", classNameCapitalize, itemName, dataClass, originPackageName)
         .save(directorySrc, "$packageName.view.model", "$viewModelClass.kt")
 
-    createData("$packageName.data", classNameCapitalize)
+    createData(packageName, ".data", classNameCapitalize)
         .save(directorySrc, "$packageName.data", "$dataClass.kt")
 
     createFragmentLayout(classNameCapitalize, recyclerName)

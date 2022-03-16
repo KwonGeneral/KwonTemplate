@@ -2,18 +2,19 @@ package com.github.kwongeneral.kwontemplate.mvvm.classes
 
 fun createViewModel(
     packageName: String,
+    path: String,
     className: String,
     itemName: String,
     dataName: String,
     originPackageName: String
 ) = """
-package $packageName
+package $packageName$path
 
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import $originPackageName.data.$dataName
+import $packageName.$dataName
 
 class ${className}ViewModel(context: Context): ViewModel() {
     val $itemName = MutableLiveData<ArrayList<$dataName>>()

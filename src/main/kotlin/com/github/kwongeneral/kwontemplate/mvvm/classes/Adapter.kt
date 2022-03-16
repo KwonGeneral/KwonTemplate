@@ -2,12 +2,13 @@ package com.github.kwongeneral.kwontemplate.mvvm.classes
 
 fun createAdapter(
     packageName: String,
+    path: String,
     className: String,
     dataName: String,
     adapterLayoutName: String,
     originPackageName: String
 ) = """
-package $packageName
+package $packageName$path
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -16,7 +17,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlin.collections.ArrayList
 import $originPackageName.R
-import $originPackageName.data.$dataName
+import $packageName.$dataName
 
 class ${className}Adapter(
     private val context: Context,

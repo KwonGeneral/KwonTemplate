@@ -3,8 +3,9 @@ package com.github.kwongeneral.kwontemplate.extensions
 import com.android.tools.idea.wizard.template.*
 import com.intellij.psi.*
 import org.jetbrains.kotlin.idea.*
+import java.util.*
 
-fun String.toSnakeCase() = replace(humps, "_").toLowerCase()
+fun String.toSnakeCase() = replace(humps, "_").lowercase(Locale.getDefault())
 private val humps = "(?<=.)(?=\\p{Upper})".toRegex()
 
 val defaultPackageNameParameter

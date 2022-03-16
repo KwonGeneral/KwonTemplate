@@ -9,6 +9,7 @@ import com.intellij.openapi.roots.*
 import com.intellij.psi.*
 import com.github.kwongeneral.kwontemplate.mvvm.classes.*
 import com.github.kwongeneral.kwontemplate.mvvm.layout.*
+import java.util.*
 
 
 fun RecipeExecutor.fragmentSetup(
@@ -32,9 +33,9 @@ fun RecipeExecutor.fragmentSetup(
     val adapterClass = "${className}Adapter".capitalize()
     val dataClass = "${className}Data".capitalize()
     val viewModelClass = "${className}ViewModel".capitalize()
-    val itemName = "${className.toLowerCase()}_item"
+    val itemName = "${className.lowercase(Locale.getDefault())}_item"
     val adapterLayoutName = "adapter_${className.toSnakeCase()}"
-    val recyclerName = "recycler_${className.toLowerCase()}"
+    val recyclerName = "recycler_${className.lowercase(Locale.getDefault())}"
     val classNameCapitalize = className.capitalize()
 
     val packageNameSplit = packageName.split(".")

@@ -3,6 +3,7 @@ package com.github.kwongeneral.kwontemplate.setup
 import com.android.tools.idea.wizard.template.*
 import com.github.kwongeneral.kwontemplate.extensions.defaultPackageNameParameter
 import com.github.kwongeneral.kwontemplate.extensions.toSnakeCase
+import java.util.*
 
 val fragmentSetupTemplate
     get() = template {
@@ -29,7 +30,10 @@ val fragmentSetupTemplate
             default = ""
             help = "레이아웃명"
             constraints = listOf(Constraint.LAYOUT, Constraint.UNIQUE, Constraint.NONEMPTY)
-            suggest = { fragmentToLayout(className.value.toSnakeCase()) }
+            suggest = {
+                val tempName = className.value.lowercase(Locale.getDefault()).replace("fragment", "")
+                "fragment_$tempName"
+            }
         }
 
         widgets(

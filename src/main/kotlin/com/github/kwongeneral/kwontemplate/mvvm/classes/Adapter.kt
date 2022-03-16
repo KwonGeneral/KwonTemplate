@@ -17,7 +17,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlin.collections.ArrayList
 import $originPackageName.R
-import $packageName.$dataName
+import $packageName.data.$dataName
 
 class ${className}Adapter(
     private val context: Context,

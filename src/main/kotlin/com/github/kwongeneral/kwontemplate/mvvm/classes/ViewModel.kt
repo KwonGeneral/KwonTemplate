@@ -14,7 +14,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import $packageName.$dataName
+import $packageName.data.$dataName
 
 class ${className}ViewModel(context: Context): ViewModel() {
     val $itemName = MutableLiveData<ArrayList<$dataName>>()
